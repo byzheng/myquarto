@@ -15,3 +15,6 @@ CRAN-SUBMISSION
 .quarto
 /doc/
 /Meta/
+
+/.quarto/
+**/*.quarto_ipynb

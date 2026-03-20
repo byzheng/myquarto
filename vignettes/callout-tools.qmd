@@ -1,22 +1,13 @@
 ---
 title: "Callout Tools"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Callout Tools}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+format: html
+execute:
+  echo: true
+  warning: false
+  message: false
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.width = 7,
-  fig.height = 4
-)
-```
-
-This vignette demonstrates the callout helpers in myquarto.
+This article demonstrates the callout helpers in myquarto.
 
 ## Setup
 
@@ -27,7 +18,7 @@ library(ggplot2)
 
 ## Add Expand/Collapse Controls
 
-```{r, results = 'asis'}
+```{r}
 render_callout_ui(
   description = "Use the buttons below to expand or collapse all callout sections.",
   button_expand_label = "Expand Sections",
@@ -37,7 +28,9 @@ render_callout_ui(
 
 ## Render Mixed Content in Callouts
 
-```{r, results = 'asis'}
+```{r}
+
+
 fig_scatter <- ggplot(mtcars, aes(wt, mpg, color = factor(cyl))) +
   geom_point(size = 2.5, alpha = 0.85) +
   labs(title = "Fuel Economy vs Weight", x = "Weight", y = "MPG", color = "Cyl") +
@@ -62,15 +55,13 @@ render_callout_content(
   callout_type = "note",
   collapse = TRUE
 )
-
-
 ```
 
 ## Auto Titles
 
 If titles are omitted, section names are generated automatically.
 
-```{r, results = 'asis'}
+```{r}
 render_callout_content(
   content_list = list(
     "First section content",
