@@ -47,43 +47,43 @@ render_callout_ui <- function(
 }
 
 
-#' Render Figures in Callouts
+#' Render Blocks in Callouts
 #'
-#' Wraps a list of figures in Quarto callouts with optional collapse.
+#' Wraps a list of text blocks in Quarto callouts with optional collapse.
 #'
-#' @param figures List of plot objects (ggplot, patchwork, htmlwidgets).
-#' @param titles Character vector of titles. Defaults to list names or Figure 1,2,...
+#' @param blocks List of text blocks.
+#' @param titles Character vector of titles. Defaults to list names or Section 1,2,...
 #' @param callout_type Callout type: "note", "tip", "warning", etc.
 #' @param collapse Logical. Should callouts start collapsed? Default TRUE.
 #' @return HTML output for Quarto (asis)
 #' @export
-render_callout_figures <- function(
-    figures,
-    titles = names(figures),
-    callout_type = "note",
-    collapse = TRUE
+#' @examples
+#' blocks <- list(
+#'   "Intro" = "This is the introduction section.",
+#'   "Details" = "Here are the details, with multiple lines.\nYou can use Markdown!"
+#' )
+#' render_callout_blocks(blocks, callout_type = "tip", collapse = FALSE)
+render_callout_blocks <- function(
+  blocks,
+  titles = names(blocks),
+  callout_type = "note",
+  collapse = TRUE
 ) {
-    stopifnot(is.list(figures), length(figures) > 0)
-    
-    if (is.null(titles)) {
-        titles <- paste("Figure", seq_along(figures))
-    }
-    stopifnot(length(titles) == length(figures))
-    
+    stopifnot(is.list(blocks), length(blocks) > 0)
+    if (is.null(titles)) titles <- paste("Section", seq_along(blocks))
+    stopifnot(length(titles) == length(blocks))
     collapse_value <- if (collapse) "true" else "false"
-    
-    html_list <- lapply(seq_along(figures), function(i) {
+
+    html_list <- lapply(seq_along(blocks), function(i) {
         htmltools::tagList(
         htmltools::HTML(
             sprintf('::: {.callout-%s collapse="%s"}\n\n### %s\n\n', 
                     callout_type, collapse_value, titles[i])
         ),
-        figures[[i]],
+        blocks[[i]],
         htmltools::HTML("\n:::\n")
         )
     })
-    
-    knitr::asis_output(
-        paste(sapply(html_list, as.character), collapse = "\n\n")
-    )
+
+    knitr::asis_output(paste(sapply(html_list, as.character), collapse = "\n\n"))
 }
