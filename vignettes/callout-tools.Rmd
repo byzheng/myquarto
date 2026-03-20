@@ -1,0 +1,69 @@
+---
+title: "Callout Tools"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Callout Tools}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 4
+)
+```
+
+This vignette demonstrates the callout helpers in myquarto.
+
+## Setup
+
+```{r}
+library(myquarto)
+```
+
+## Add Expand/Collapse Controls
+
+```{r, results = 'asis'}
+render_callout_ui(
+  description = "Use the buttons below to expand or collapse all callout sections.",
+  button_expand_label = "Expand Sections",
+  button_collapse_label = "Collapse Sections"
+)
+```
+
+## Render Mixed Content in Callouts
+
+```{r, results = 'asis'}
+content_items <- list(
+  "This section is plain Markdown content.\n\n- Item A\n- Item B",
+  head(mtcars, 5),
+  "Final notes with **bold text** and `inline code`."
+)
+
+render_callout_content(
+  content_list = content_items,
+  titles = c("Overview", "Data Preview", "Notes"),
+  callout_type = "tip",
+  collapse = TRUE
+)
+```
+
+## Auto Titles
+
+If titles are omitted, section names are generated automatically.
+
+```{r, results = 'asis'}
+render_callout_content(
+  content_list = list(
+    "First section content",
+    "Second section content"
+  )
+)
+```
+
+## Title Rule
+
+Titles must be unique. Duplicate titles raise an error.

@@ -15,14 +15,14 @@ test_that("render_callout_ui returns knit_asis HTML with controls", {
   expect_match(out_chr, ">Close<", fixed = TRUE)
 })
 
-test_that("render_callout_blocks wraps content in callouts", {
-  blocks <- list(
+test_that("render_callout_content wraps content in callouts", {
+  content_list <- list(
     htmltools::HTML("<span>Block A</span>"),
     htmltools::HTML("<span>Block B</span>")
   )
 
-  out <- render_callout_blocks(
-    blocks = blocks,
+  out <- render_callout_content(
+    content_list = content_list,
     titles = c("One", "Two"),
     callout_type = "tip",
     collapse = FALSE
@@ -36,4 +36,16 @@ test_that("render_callout_blocks wraps content in callouts", {
   expect_match(out_chr, "### Two", fixed = TRUE)
   expect_match(out_chr, "Block A", fixed = TRUE)
   expect_match(out_chr, "Block B", fixed = TRUE)
+})
+
+test_that("render_callout_content rejects duplicate titles", {
+  content_list <- list("A", "B")
+
+  expect_error(
+    render_callout_content(
+      content_list = content_list,
+      titles = c("Same", "Same")
+    ),
+    "must not contain duplicates"
+  )
 })

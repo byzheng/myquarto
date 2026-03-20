@@ -15,3 +15,5 @@ cran-comments.md
 ^\.github$
 ^CRAN-SUBMISSION$
 ^.vscode$
+^doc$
+^Meta$
