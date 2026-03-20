@@ -49,3 +49,21 @@ test_that("render_callout_content rejects duplicate titles", {
     "must not contain duplicates"
   )
 })
+
+test_that("render_callout_content accepts ggplot objects", {
+  skip_if_not_installed("ggplot2")
+
+  p <- ggplot2::ggplot(mtcars, ggplot2::aes(wt, mpg)) +
+    ggplot2::geom_point()
+
+  out <- render_callout_content(
+    content_list = list(p),
+    titles = "Scatter"
+  )
+
+  out_chr <- as.character(out)
+
+  expect_s3_class(out, "knit_asis")
+  expect_match(out_chr, "### Scatter", fixed = TRUE)
+  expect_match(out_chr, "\\{\\.callout-note collapse=\"true\"\\}")
+})
