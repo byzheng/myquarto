@@ -85,19 +85,11 @@ render_callout_content(
 
 ## Only figures
 
-``` r
-content_items <- list(
-  fig_scatter,
-  fig_box
-)
+Use the buttons below to expand or collapse all sections.
 
-render_callout_content(
-  content_list = content_items,
-  titles = c("Figure: Scatter", "Figure: Boxplot"),
-  callout_type = "note",
-  collapse = TRUE
-)
-```
+Expand All Collapse All
+
+Example Plots
 
 > **Figure: Scatter**
 >
