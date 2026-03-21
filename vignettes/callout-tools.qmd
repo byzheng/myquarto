@@ -27,7 +27,9 @@ render_callout_ui()
 
 ```{r}
 #| results: "asis"
-
+#| fig.cap: "Example Plots"
+#| fig.width: 6
+#| fig.height: 4
 fig_scatter <- ggplot(mtcars, aes(wt, mpg, color = factor(cyl))) +
   geom_point(size = 2.5, alpha = 0.85) +
   labs(title = "Fuel Economy vs Weight", x = "Weight", y = "MPG", color = "Cyl") +
