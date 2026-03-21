@@ -59,10 +59,11 @@ render_callout_content(
 
 ## Only figures
 
-```{r}
+```{r echo=FALSE}
 #| results: "asis"
 #| fig.cap: "Example Plots"
 #| fig.width: 6
+render_callout_ui()
 content_items <- list(
   fig_scatter,
   fig_box

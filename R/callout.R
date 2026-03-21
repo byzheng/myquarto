@@ -80,7 +80,7 @@ render_callout_content <- function(
     }
     
     collapse_value <- if (collapse) "true" else "false"
-
+    cat("\r\n\r\n")
     i <- 2
     for (i in seq(along = content_list)) {
         content <- content_list[[i]]
