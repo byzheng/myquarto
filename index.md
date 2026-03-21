@@ -8,7 +8,7 @@ Currently on [Github](https://github.com/byzheng/myquarto) only. Install
 with:
 
 ``` r
-remotes::install_github('byzheng/quarto')
+remotes::install_github('byzheng/myquarto')
 ```
 
 ## Usage
