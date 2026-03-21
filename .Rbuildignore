@@ -18,3 +18,7 @@ cran-comments.md
 ^doc$
 ^Meta$
 ^docs$
+^_quarto\.yml$
+^\.quarto$
+vignettes
+
