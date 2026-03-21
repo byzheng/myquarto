@@ -1,8 +1,13 @@
 callout_dependency <- function() {
+    dep_src <- system.file("quarto", package = "myquarto")
+    if (!nzchar(dep_src)) {
+        dep_src <- "inst/quarto"
+    }
+
     htmltools::htmlDependency(
-        name = "callout-tools",
+        name = "myquarto",
         version = "1.0",
-        src = system.file("quarto", package = "myquarto"),
+        src = c(file = dep_src),
         script = "callout.js",
         stylesheet = "callout.css"
     )
@@ -26,7 +31,6 @@ render_callout_ui <- function(
     dep <- callout_dependency()
     
     out <- htmltools::tagList(
-        dep,
         htmltools::tags$p(description),
         htmltools::tags$div(
         class = "mb-3",
@@ -42,8 +46,11 @@ render_callout_ui <- function(
         )
         )
     )
+
+    out <- htmltools::attachDependencies(out, dep)
+    rendered <- htmltools::renderTags(out)
     
-    knitr::asis_output(as.character(out))
+    knitr::asis_output(rendered$html, meta = rendered$dependencies)
 }
 
 
