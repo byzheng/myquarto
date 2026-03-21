@@ -19,17 +19,14 @@ library(ggplot2)
 ## Add Expand/Collapse Controls
 
 ```{r}
-render_callout_ui(
-  description = "Use the buttons below to expand or collapse all callout sections.",
-  button_expand_label = "Expand Sections",
-  button_collapse_label = "Collapse Sections"
-)
+#| results: "asis"
+render_callout_ui()
 ```
 
 ## Render Mixed Content in Callouts
 
 ```{r}
-
+#| results: "asis"
 
 fig_scatter <- ggplot(mtcars, aes(wt, mpg, color = factor(cyl))) +
   geom_point(size = 2.5, alpha = 0.85) +
@@ -56,20 +53,3 @@ render_callout_content(
   collapse = TRUE
 )
 ```
-
-## Auto Titles
-
-If titles are omitted, section names are generated automatically.
-
-```{r}
-render_callout_content(
-  content_list = list(
-    "First section content",
-    "Second section content"
-  )
-)
-```
-
-## Title Rule
-
-Titles must be unique. Duplicate titles raise an error.

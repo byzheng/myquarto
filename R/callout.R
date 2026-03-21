@@ -73,42 +73,41 @@ render_callout_content <- function(
     }
     
     collapse_value <- if (collapse) "true" else "false"
-    
-    rendered_blocks <- lapply(seq_along(content_list), function(i) {
+
+    i <- 2
+    for (i in seq(along = content_list)) {
+        content <- content_list[[i]]
+        if (
+            !(inherits(content, c("gg", "patchwork", "htmlwidget")) ||
+            is.data.frame(content) ||
+            is.character(content))
+        ) {
+            warning("Unsupported content type: ", class(content)[1], call. = FALSE)
+            next
+        }
+
         block_header <- sprintf(
-            '::: {.callout-%s collapse="%s"}\n\n### %s\n\n',
+            '::: {.callout-%s collapse="%s"}\r\n\r\n### %s\n\n',
             callout_type,
             collapse_value,
             titles[i]
         )
+        cat(block_header)
 
-        content <- content_list[[i]]
-
-        content_text <- if (inherits(content, "ggplot")) {
-            if (!requireNamespace("ggplot2", quietly = TRUE)) {
-                stop("Package `ggplot2` is required to render ggplot objects.", call. = FALSE)
-            }
-
-            img_file <- tempfile("callout-plot-", fileext = ".png")
-            on.exit(unlink(img_file), add = TRUE)
-            ggplot2::ggsave(filename = img_file, plot = content, width = 7, height = 4, dpi = 96)
-
-            as.character(
-                htmltools::tags$img(
-                    src = knitr::image_uri(img_file),
-                    style = "max-width:100%;height:auto;"
-                )
-            )
+        
+        content_text <- if (inherits(content, c("gg", "patchwork", "htmlwidget"))) {
+            print(content)
+        }  else if (is.data.frame(content)) {
+            cat("\r\n")
+            cat(paste(knitr::kable(content, format = "markdown"), collapse = "\r\n"))
+            cat("\r\n")
         } else if (is.character(content)) {
-            paste(content, collapse = "\n")
-        } else if (is.data.frame(content)) {
-            as.character(knitr::kable(content, format = "html"))
-        } else {
-            paste(as.character(content), collapse = "\n")
+            cat(paste(content, collapse = "\n"))
         }
 
-        paste0(block_header, content_text, "\n\n:::\n")
-    })
-
-    knitr::asis_output(paste(unlist(rendered_blocks), collapse = "\n\n"))
+        cat("\r\n\r\n")
+        cat(":::\r\n\r\n")
+    }
+    return(invisible())
 }
+
