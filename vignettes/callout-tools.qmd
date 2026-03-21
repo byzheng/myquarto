@@ -55,3 +55,23 @@ render_callout_content(
   collapse = TRUE
 )
 ```
+
+
+## Only figures
+
+```{r}
+#| results: "asis"
+#| fig.cap: "Example Plots"
+#| fig.width: 6
+content_items <- list(
+  fig_scatter,
+  fig_box
+)
+
+render_callout_content(
+  content_list = content_items,
+  titles = c("Figure: Scatter", "Figure: Boxplot"),
+  callout_type = "note",
+  collapse = TRUE
+)
+```
