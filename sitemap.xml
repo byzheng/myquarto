@@ -1,12 +1,14 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
-<url><loc>/404.html</loc></url>
-<url><loc>/CODE_OF_CONDUCT.html</loc></url>
-<url><loc>/LICENSE-text.html</loc></url>
-<url><loc>/authors.html</loc></url>
-<url><loc>/index.html</loc></url>
-<url><loc>/news/index.html</loc></url>
-<url><loc>/reference/index.html</loc></url>
-<url><loc>/reference/render_callout_blocks.html</loc></url>
-<url><loc>/reference/render_callout_ui.html</loc></url>
+<url><loc>https://myquarto.bangyou.me/404.html</loc></url>
+<url><loc>https://myquarto.bangyou.me/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://myquarto.bangyou.me/LICENSE-text.html</loc></url>
+<url><loc>https://myquarto.bangyou.me/articles/callout-tools.html</loc></url>
+<url><loc>https://myquarto.bangyou.me/articles/index.html</loc></url>
+<url><loc>https://myquarto.bangyou.me/authors.html</loc></url>
+<url><loc>https://myquarto.bangyou.me/index.html</loc></url>
+<url><loc>https://myquarto.bangyou.me/news/index.html</loc></url>
+<url><loc>https://myquarto.bangyou.me/reference/index.html</loc></url>
+<url><loc>https://myquarto.bangyou.me/reference/render_callout_content.html</loc></url>
+<url><loc>https://myquarto.bangyou.me/reference/render_callout_ui.html</loc></url>
 </urlset>
 
