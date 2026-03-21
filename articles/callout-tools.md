@@ -82,3 +82,31 @@ render_callout_content(
 > **Notes**
 >
 > Final notes with **bold text** and `inline code`.
+
+## Only figures
+
+``` r
+content_items <- list(
+  fig_scatter,
+  fig_box
+)
+
+render_callout_content(
+  content_list = content_items,
+  titles = c("Figure: Scatter", "Figure: Boxplot"),
+  callout_type = "note",
+  collapse = TRUE
+)
+```
+
+> **Figure: Scatter**
+>
+> ![](callout-tools_files/figure-html/unnamed-chunk-4-1.png)
+>
+> Example Plots
+
+> **Figure: Boxplot**
+>
+> ![](callout-tools_files/figure-html/unnamed-chunk-4-2.png)
+>
+> Example Plots
