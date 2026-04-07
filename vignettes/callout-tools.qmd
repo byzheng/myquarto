@@ -9,6 +9,14 @@ execute:
 
 This article demonstrates the callout helpers in myquarto.
 
+
+
+:::{.callout-note}
+* The chunk label cannot start with `fig-`
+* The chunk option `results` must be set to `asis`
+:::
+
+
 ## Setup
 
 ```{r}
@@ -59,7 +67,7 @@ render_callout_content(
 
 ## Only figures
 
-```{r echo=FALSE}
+```{r echo=TRUE}
 #| results: "asis"
 #| fig.cap: "Example Plots"
 #| fig.width: 6
