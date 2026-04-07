@@ -77,6 +77,17 @@
 
 
     <p>This article demonstrates the callout helpers in myquarto.</p>
+<div>
+<blockquote>
+<p><strong>Note</strong></p>
+<ul>
+<li>The chunk label cannot start with <code>fig-</code>
+</li>
+<li>The chunk option <code>results</code> must be set to <code>asis</code>
+</li>
+</ul>
+</blockquote>
+</div>
 <section class="level2"><h2 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
 </h2>
 <div class="cell">
@@ -263,6 +274,8 @@
 </div>
 </section><section class="level2"><h2 id="only-figures">Only figures<a class="anchor" aria-label="anchor" href="#only-figures"></a>
 </h2>
+<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/render_callout_ui.html">render_callout_ui</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>
 Use the buttons below to expand or collapse all sections.
 </p>
@@ -270,6 +283,18 @@ Use the buttons below to expand or collapse all sections.
 <p><button class="btn btn-sm btn-outline-secondary me-2" onclick="expandAllCallouts()">Expand All</button> <button class="btn btn-sm btn-outline-secondary" onclick="collapseAllCallouts()">Collapse All</button></p>
 </div>
 <p>Example Plots</p>
+<div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">content_items</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  <span class="va">fig_scatter</span>,</span>
+<span>  <span class="va">fig_box</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/render_callout_content.html">render_callout_content</a></span><span class="op">(</span></span>
+<span>  content_list <span class="op">=</span> <span class="va">content_items</span>,</span>
+<span>  titles <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Figure: Scatter"</span>, <span class="st">"Figure: Boxplot"</span><span class="op">)</span>,</span>
+<span>  callout_type <span class="op">=</span> <span class="st">"note"</span>,</span>
+<span>  collapse <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <div>
 <blockquote>
 <p><strong>Figure: Scatter</strong></p>

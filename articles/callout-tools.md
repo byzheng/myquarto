@@ -2,6 +2,11 @@
 
 This article demonstrates the callout helpers in myquarto.
 
+> **Note**
+>
+> - The chunk label cannot start with `fig-`
+> - The chunk option `results` must be set to `asis`
+
 ## Setup
 
 ``` r
@@ -85,11 +90,29 @@ render_callout_content(
 
 ## Only figures
 
+``` r
+render_callout_ui()
+```
+
 Use the buttons below to expand or collapse all sections.
 
 Expand All Collapse All
 
 Example Plots
+
+``` r
+content_items <- list(
+  fig_scatter,
+  fig_box
+)
+
+render_callout_content(
+  content_list = content_items,
+  titles = c("Figure: Scatter", "Figure: Boxplot"),
+  callout_type = "note",
+  collapse = TRUE
+)
+```
 
 > **Figure: Scatter**
 >
