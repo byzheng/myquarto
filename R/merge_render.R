@@ -292,10 +292,8 @@ merge_render <- function(
     output_path,
     render_dir = ".",
     title = NULL,
-    output_format = NULL,
+    output_format = "html",
     overwrite = FALSE,
-    render = TRUE,
-    quiet = FALSE,
     ...
 ) {
     # ---- validate basic inputs ----
@@ -310,9 +308,6 @@ merge_render <- function(
     stopifnot(is.null(title) || (is.character(title) && length(title) == 1))
     stopifnot(is.null(output_format) || (is.character(output_format) && length(output_format) == 1))
     stopifnot(is.logical(overwrite), length(overwrite) == 1)
-    stopifnot(is.logical(render), length(render) == 1)
-    stopifnot(is.logical(quiet), length(quiet) == 1)
-
     input_files <- normalizePath(input_files, winslash = "/", mustWork = TRUE)
 
     for (f in input_files) {
@@ -348,14 +343,17 @@ merge_render <- function(
     }
 
     output_format <- tolower(output_format)
-
-    if (!render && !identical(output_format, "qmd")) {
+    # ---- validate output_path extension ----
+    if (!(tools::file_ext(output_path) %in% expected_extensions(output_format))) {
         stop(
-            "`render = FALSE` writes the merged QMD directly, so `output_path` must end in `.qmd`.",
+            sprintf(
+                "`output_path` extension does not match `output_format = '%s'`: %s",
+                output_format,
+                output_path
+            ),
             call. = FALSE
         )
     }
-
     # ---- prepare render directory ----
 
     if (!dir.exists(render_dir)) {
@@ -365,7 +363,6 @@ merge_render <- function(
     render_dir <- normalizePath(render_dir, winslash = "/", mustWork = TRUE)
 
     # ---- merge contents ----
-
     contents <- lapply(input_files, function(f) {
         lines <- readLines(f, warn = FALSE)
         lines <- strip_qmd_yaml(lines)
@@ -387,7 +384,7 @@ merge_render <- function(
 
     yaml <- make_merged_yaml(
         title = title,
-        output_format = if (render) output_format else NULL
+        output_format = output_format
     )
 
     final_lines <- c(yaml, merged_body)
@@ -402,30 +399,13 @@ merge_render <- function(
 
     merged_qmd <- file.path(render_dir, paste0(render_stem, ".qmd"))
 
-    if (file.exists(merged_qmd)) {
-        file.remove(merged_qmd)
-    }
-
-    writeLines(final_lines, merged_qmd, useBytes = TRUE)
-
-    # ---- merge only ----
-
-    if (!render) {
-        ok <- file.copy(
-            from = merged_qmd,
-            to = output_path,
-            overwrite = overwrite
+    if (file.exists(merged_qmd) && !overwrite) {
+        stop(
+            sprintf("File already exists: %s", merged_qmd),
+            call. = FALSE
         )
-
-        if (!ok) {
-            stop(
-                sprintf("Failed to copy merged QMD to `output_path`: %s", output_path),
-                call. = FALSE
-            )
-        }
-
-        return(invisible(normalizePath(output_path, winslash = "/", mustWork = TRUE)))
     }
+    writeLines(final_lines, merged_qmd, useBytes = TRUE)
 
     # ---- render ----
 
@@ -441,7 +421,6 @@ merge_render <- function(
         input = merged_qmd,
         output_format = output_format,
         output_file = render_output_name,
-        quiet = quiet,
         ...
     )
 
