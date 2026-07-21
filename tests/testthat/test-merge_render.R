@@ -28,6 +28,14 @@ test_that("merge_render writes merged qmd and skips render when render=FALSE", {
     )
     expect_true(file.exists(merged_qmd))
     expect_true(file.exists(merged_html))
+    # inspect merged qmd to ensure titles were converted and content preserved
+    txt_qmd <- readLines(merged_qmd)
+    expect_true(any(grepl("^#\\s*Test1", txt_qmd)))
+    expect_true(any(grepl("^#\\s*Test2", txt_qmd)))
+    expect_true(any(grepl("^#\\s*A", txt_qmd)))
+    expect_true(any(grepl("^#\\s*B", txt_qmd)))
+    expect_false(any(grepl("^title\\s*:", txt_qmd)))
+
     file.remove(merged_qmd)
     file.remove(merged_html)
     

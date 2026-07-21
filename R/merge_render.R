@@ -56,17 +56,45 @@ strip_qmd_yaml <- function(lines) {
 
     first <- trimws(lines[first_idx])
 
+    extract_title <- function(yaml_lines) {
+        # look for a simple `title: VALUE` line and return VALUE without quotes
+        if (length(yaml_lines) == 0) return(NULL)
+        m <- regexec("^\\s*title\\s*:\\s*(.*)$", yaml_lines)
+        vals <- regmatches(yaml_lines, m)
+        if (length(vals) == 0) return(NULL)
+        for (v in vals) {
+            if (length(v) >= 2 && nzchar(v[2])) {
+                ttl <- trimws(v[2])
+                # remove surrounding single or double quotes
+                ttl <- sub('^"(.*)"$', "\\1", ttl)
+                ttl <- sub("^'(.*)'$", "\\1", ttl)
+                return(ttl)
+            }
+        }
+        NULL
+    }
+
     if (identical(first, "---")) {
         if (first_idx < length(lines)) {
-            rest <- trimws(lines[(first_idx + 1):length(lines)])
+            rest_full <- lines[(first_idx + 1):length(lines)]
+            rest <- trimws(rest_full)
             end_rel <- which(rest == "---")[1]
 
             if (!is.na(end_rel)) {
                 end <- first_idx + end_rel
+                yaml_lines <- rest_full[1:(end_rel - 1)]
+                title <- extract_title(yaml_lines)
 
                 if (end < length(lines)) {
-                    return(lines[(end + 1):length(lines)])
+                    body <- lines[(end + 1):length(lines)]
+                    if (!is.null(title) && nzchar(title)) {
+                        return(c(paste0("# ", title), "", body))
+                    }
+                    return(body)
                 } else {
+                    if (!is.null(title) && nzchar(title)) {
+                        return(c(paste0("# ", title)))
+                    }
                     return(character())
                 }
             }
@@ -75,15 +103,25 @@ strip_qmd_yaml <- function(lines) {
 
     if (grepl("^```\\{yaml", first)) {
         if (first_idx < length(lines)) {
-            rest <- trimws(lines[(first_idx + 1):length(lines)])
+            rest_full <- lines[(first_idx + 1):length(lines)]
+            rest <- trimws(rest_full)
             end_rel <- which(rest == "```")[1]
 
             if (!is.na(end_rel)) {
                 end <- first_idx + end_rel
+                yaml_lines <- rest_full[1:(end_rel - 1)]
+                title <- extract_title(yaml_lines)
 
                 if (end < length(lines)) {
-                    return(lines[(end + 1):length(lines)])
+                    body <- lines[(end + 1):length(lines)]
+                    if (!is.null(title) && nzchar(title)) {
+                        return(c(paste0("# ", title), "", body))
+                    }
+                    return(body)
                 } else {
+                    if (!is.null(title) && nzchar(title)) {
+                        return(c(paste0("# ", title)))
+                    }
                     return(character())
                 }
             }
