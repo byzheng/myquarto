@@ -2,7 +2,7 @@
 
 ## Authors
 
-- **Bangou Zheng**. Author, maintainer.
+- **Bangyou Zheng**. Author, maintainer.
 
 ## Citation
 
@@ -14,7 +14,7 @@ Zheng B (2026). *myquarto: Personal Quarto functions*. R package version
 
     @Manual{,
       title = {myquarto: Personal Quarto functions},
-      author = {Bangou Zheng},
+      author = {Bangyou Zheng},
       year = {2026},
       note = {R package version 0.1.0},
       url = {https://myquarto.bangyou.me/},

@@ -8,12 +8,14 @@ Currently on [Github](https://github.com/byzheng/myquarto) only. Install
 with:
 
 ``` r
+
 remotes::install_github('byzheng/myquarto')
 ```
 
 ## Usage
 
 ``` r
+
 library(myquarto)
 library(ggplot2)
 
@@ -39,6 +41,8 @@ render_callout_content(
 
 ## All functions
 
+- [`merge_render()`](https://myquarto.bangyou.me/reference/merge_render.md)
+  : Merge multiple Quarto QMD files and render
 - [`render_callout_content()`](https://myquarto.bangyou.me/reference/render_callout_content.md)
   : Render any content in collapsible callouts
 - [`render_callout_ui()`](https://myquarto.bangyou.me/reference/render_callout_ui.md)

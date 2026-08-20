@@ -10,6 +10,7 @@ This article demonstrates the callout helpers in myquarto.
 ## Setup
 
 ``` r
+
 library(myquarto)
 library(ggplot2)
 ```
@@ -17,6 +18,7 @@ library(ggplot2)
 ## Add Expand/Collapse Controls
 
 ``` r
+
 render_callout_ui()
 ```
 
@@ -29,6 +31,7 @@ Collapse All
 ## Render Mixed Content in Callouts
 
 ``` r
+
 fig_scatter <- ggplot(mtcars, aes(wt, mpg, color = factor(cyl))) +
   geom_point(size = 2.5, alpha = 0.85) +
   labs(title = "Fuel Economy vs Weight", x = "Weight", y = "MPG", color = "Cyl") +
@@ -91,6 +94,7 @@ render_callout_content(
 ## Only figures
 
 ``` r
+
 render_callout_ui()
 ```
 
@@ -101,6 +105,7 @@ Expand All Collapse All
 Example Plots
 
 ``` r
+
 content_items <- list(
   fig_scatter,
   fig_box
