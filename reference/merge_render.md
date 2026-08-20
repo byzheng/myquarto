@@ -1,8 +1,8 @@
-# Merge multiple Quarto QMD files and render
+# Merge multiple Quarto QMD files and optionally render
 
-Read multiple `.qmd` files, remove their YAML headers, combine their
-contents into a single `.qmd` document, write that merged file to
-`output_dir` and (optionally) render it with
+This function reads multiple `.qmd` files, removes their top-level YAML
+headers, merges their bodies into a single temporary `.qmd`, and
+optionally renders that file with
 [`quarto::quarto_render()`](https://quarto-dev.github.io/quarto-r/reference/quarto_render.html).
 
 ## Usage
@@ -10,12 +10,11 @@ contents into a single `.qmd` document, write that merged file to
 ``` r
 merge_render(
   input_files,
-  output_file = NULL,
-  output_dir = ".",
+  output_path,
+  render_dir = ".",
   title = NULL,
   output_format = "html",
-  override = FALSE,
-  render = TRUE,
+  overwrite = FALSE,
   ...
 )
 ```
@@ -26,37 +25,29 @@ merge_render(
 
   Character vector of input `.qmd` file paths.
 
-- output_file:
+- output_path:
 
-  Filename (without extension) for the rendered output. If `NULL` the
-  merged source file will be written as `merged.qmd` and Quarto's
-  default output filename rules will apply.
+  Final output path. For example `"knowledge.md"`, `"report.html"`,
+  `"paper.docx"`, or `"merged.qmd"`.
 
-- output_dir:
+- render_dir:
 
-  Directory where the merged `.qmd` (and rendered output) will be
-  written. Created if it does not exist.
+  Directory where the merged source QMD is created and rendered.
+  Defaults to `"."`.
 
 - title:
 
-  Optional title to add as a YAML header to the merged file.
+  Optional title inserted into the merged QMD YAML header.
 
 - output_format:
 
-  Target output format passed to
-  [`quarto::quarto_render()`](https://quarto-dev.github.io/quarto-r/reference/quarto_render.html).
-  Defaults to `"html"`.
+  Optional Quarto output format. If `NULL`, the format is inferred from
+  `output_path`. If supplied, it must be consistent with the extension
+  of `output_path`.
 
-- override:
+- overwrite:
 
-  Logical, overwrite existing merged file if TRUE.
-
-- render:
-
-  Logical, whether to call
-  [`quarto::quarto_render()`](https://quarto-dev.github.io/quarto-r/reference/quarto_render.html)
-  after writing the merged `.qmd`. Set to `FALSE` in tests to skip
-  rendering.
+  Logical. If `TRUE`, overwrite `output_path` if it exists.
 
 - ...:
 
@@ -65,6 +56,20 @@ merge_render(
 
 ## Value
 
-Invisibly returns the merged `.qmd` path when `render = FALSE`,
-otherwise the result of
-[`quarto::quarto_render()`](https://quarto-dev.github.io/quarto-r/reference/quarto_render.html).
+Invisibly returns `output_path`.
+
+## Details
+
+The important design distinction is:
+
+- `render_dir`: where the merged QMD is created and where Quarto is run.
+
+- `output_path`: the final file path returned to the user.
+
+By default, `render_dir = "."`, so normal Quarto project behaviour is
+used. If `render_dir` is inside a directory tree containing
+`_quarto.yml`, Quarto may inherit that project configuration.
+
+To avoid inheriting `_quarto.yml`, use:
+
+`render_dir = temp_render_dir()`
