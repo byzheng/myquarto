@@ -2,7 +2,7 @@ Package: myquarto
 Title: Personal Quarto functions
 Version: 0.1.0
 Authors@R: 
-    person("Bangou", "Zheng", , "zheng.bangyou@gmail.com", role = c("aut", "cre"))
+    person("Bangyou", "Zheng", email = "zheng.bangyou@gmail.com", role = c("aut", "cre"))
 Description: Personal Quarto functions for various tasks and workflows.
 License: MIT + file LICENSE
 Encoding: UTF-8
