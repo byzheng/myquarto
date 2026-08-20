@@ -2,47 +2,57 @@
 % Please edit documentation in R/merge_render.R
 \name{merge_render}
 \alias{merge_render}
-\title{Merge multiple Quarto QMD files and render}
+\title{Merge multiple Quarto QMD files and optionally render}
 \usage{
 merge_render(
   input_files,
-  output_file = NULL,
-  output_dir = ".",
+  output_path,
+  render_dir = ".",
   title = NULL,
   output_format = "html",
-  override = FALSE,
-  render = TRUE,
+  overwrite = FALSE,
   ...
 )
 }
 \arguments{
 \item{input_files}{Character vector of input \code{.qmd} file paths.}
 
-\item{output_file}{Filename (without extension) for the rendered output.
-If \code{NULL} the merged source file will be written as \code{merged.qmd} and
-Quarto's default output filename rules will apply.}
+\item{output_path}{Final output path. For example \code{"knowledge.md"},
+\code{"report.html"}, \code{"paper.docx"}, or \code{"merged.qmd"}.}
 
-\item{output_dir}{Directory where the merged \code{.qmd} (and rendered output)
-will be written. Created if it does not exist.}
+\item{render_dir}{Directory where the merged source QMD is created and
+rendered. Defaults to \code{"."}.}
 
-\item{title}{Optional title to add as a YAML header to the merged file.}
+\item{title}{Optional title inserted into the merged QMD YAML header.}
 
-\item{output_format}{Target output format passed to \code{quarto::quarto_render()}.
-Defaults to \code{"html"}.}
+\item{output_format}{Optional Quarto output format. If \code{NULL}, the format
+is inferred from \code{output_path}. If supplied, it must be consistent with
+the extension of \code{output_path}.}
 
-\item{override}{Logical, overwrite existing merged file if TRUE.}
-
-\item{render}{Logical, whether to call \code{quarto::quarto_render()} after
-writing the merged \code{.qmd}. Set to \code{FALSE} in tests to skip rendering.}
+\item{overwrite}{Logical. If \code{TRUE}, overwrite \code{output_path} if it exists.}
 
 \item{...}{Additional arguments passed to \code{quarto::quarto_render()}.}
 }
 \value{
-Invisibly returns the merged \code{.qmd} path when \code{render = FALSE},
-otherwise the result of \code{quarto::quarto_render()}.
+Invisibly returns \code{output_path}.
 }
 \description{
-Read multiple \code{.qmd} files, remove their YAML headers, combine their
-contents into a single \code{.qmd} document, write that merged file to
-\code{output_dir} and (optionally) render it with \code{quarto::quarto_render()}.
+This function reads multiple \code{.qmd} files, removes their top-level YAML
+headers, merges their bodies into a single temporary \code{.qmd}, and optionally
+renders that file with \code{quarto::quarto_render()}.
+}
+\details{
+The important design distinction is:
+\itemize{
+\item \code{render_dir}: where the merged QMD is created and where Quarto is run.
+\item \code{output_path}: the final file path returned to the user.
+}
+
+By default, \code{render_dir = "."}, so normal Quarto project behaviour is used.
+If \code{render_dir} is inside a directory tree containing \verb{_quarto.yml}, Quarto
+may inherit that project configuration.
+
+To avoid inheriting \verb{_quarto.yml}, use:
+
+\code{render_dir = temp_render_dir()}
 }

@@ -316,10 +316,6 @@ locate_rendered_file <- function(
 #'   is inferred from `output_path`. If supplied, it must be consistent with
 #'   the extension of `output_path`.
 #' @param overwrite Logical. If `TRUE`, overwrite `output_path` if it exists.
-#' @param render Logical. If `TRUE`, render the merged QMD. If `FALSE`,
-#'   write the merged QMD directly to `output_path`; in that case,
-#'   `output_path` must end in `.qmd`.
-#' @param quiet Logical. Passed to `quarto::quarto_render()`.
 #' @param ... Additional arguments passed to `quarto::quarto_render()`.
 #'
 #' @return Invisibly returns `output_path`.
